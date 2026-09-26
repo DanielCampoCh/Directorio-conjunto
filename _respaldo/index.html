@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Directorio Bosques de Chipichape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos/styles.css">
+</head>
+<body>
+<header class="hero">
+  <div class="wrap hero-inner">
+    <img id="logo" alt="" hidden>
+    <p class="conjunto" id="conjunto"></p>
+    <h1 id="titulo"></h1>
+    <p class="sub" id="subtitulo"></p>
+    <button class="btn btn-sol" id="btnRegistro" type="button">+ Registrar mi emprendimiento</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="filtros" id="filtros" aria-label="Buscar en el directorio">
+    <div class="campo">
+      <label for="qNombre">Vecino, empresa o apartamento</label>
+      <input id="qNombre" type="search" placeholder="Ej. Andrea, 502…" autocomplete="off">
+    </div>
+    <div class="campo">
+      <label for="qServicio">Producto o servicio</label>
+      <input id="qServicio" type="search" placeholder="Ej. postres, contador…" autocomplete="off">
+    </div>
+    <div class="campo">
+      <label for="fCategoria">Categoría</label>
+      <select id="fCategoria"><option value="">Todas las categorías</option></select>
+    </div>
+    <div class="campo">
+      <label for="fVinculo">Tipo</label>
+      <select id="fVinculo"><option value="">Todos</option></select>
+    </div>
+  </section>
+
+  <div class="barra">
+    <p class="conteo" id="conteo" aria-live="polite"></p>
+    <button class="limpiar" id="btnLimpiar" type="button" hidden>Limpiar filtros</button>
+  </div>
+
+  <form class="acceso" id="acceso" hidden>
+    <h2>Solo para residentes</h2>
+    <p>Ingresa el código de acceso del conjunto para ver el directorio.</p>
+    <input id="claveInput" type="password" autocomplete="off" placeholder="Código de acceso" required>
+    <div class="msg error" id="claveError" role="alert" hidden>El código no es correcto.</div>
+    <button class="btn btn-verde" type="submit">Entrar</button>
+  </form>
+
+  <ul class="lista" id="lista" hidden></ul>
+  <div class="estado" id="estado">Cargando directorio…</div>
+</main>
+
+<footer id="pie"></footer>
+
+<dialog id="modal" aria-labelledby="modalTitulo">
+  <div class="modal-head">
+    <h2 id="modalTitulo">Registrar mi emprendimiento</h2>
+    <button class="cerrar" type="button" data-cerrar aria-label="Cerrar">&times;</button>
+  </div>
+
+  <form id="form" novalidate>
+    <p class="seccion">Tus datos</p>
+    <div class="campo"><label class="req" for="nombre">Nombre completo</label><input id="nombre" name="nombre" required maxlength="80" autocomplete="name"></div>
+    <div class="campo">
+      <label class="req" for="apartamento">Apartamento</label>
+      <input id="apartamento" name="apartamento" required maxlength="40" placeholder="Ej. 502 o Torre 2 - 502">
+    </div>
+    <div class="campo"><label class="req" for="telefono">Celular / WhatsApp</label><input id="telefono" name="telefono" type="tel" required maxlength="25" placeholder="3001234567" autocomplete="tel"></div>
+    <div class="campo"><label for="correo">Correo</label><input id="correo" name="correo" type="email" maxlength="120" autocomplete="email"></div>
+
+    <p class="seccion">Emprendimiento o empresa</p>
+    <div class="campo"><label class="req" for="empresa">Nombre del emprendimiento o empresa</label><input id="empresa" name="empresa" required maxlength="100" autocomplete="organization"></div>
+    <div class="campo"><label class="req" for="vinculo">Tu vínculo</label><select id="vinculo" name="vinculo" required><option value="">Selecciona…</option></select></div>
+    <div class="campo"><label for="cargo">Cargo u oficio</label><input id="cargo" name="cargo" maxlength="80" placeholder="Ej. Contadora, Chef, Gerente"></div>
+    <div class="campo"><label class="req" for="categoria">Categoría</label><select id="categoria" name="categoria" required><option value="">Selecciona…</option></select></div>
+
+    <div class="campo full">
+      <label class="req" for="descripcion">¿Qué hace el emprendimiento o empresa y en qué puedes ayudar?</label>
+      <textarea id="descripcion" name="descripcion" required maxlength="600" placeholder="Cuéntales a tus vecinos qué ofreces y cómo pueden contar contigo."></textarea>
+      <span class="ayuda"><span id="contador">0</span>/600 caracteres</span>
+    </div>
+    <div class="campo full">
+      <label for="productos">Productos o servicios (palabras clave)</label>
+      <input id="productos" name="productos" maxlength="300" placeholder="Ej. tortas, clases de inglés, declaración de renta">
+      <span class="ayuda">Separadas por comas. Ayudan a que te encuentren en la búsqueda.</span>
+    </div>
+
+    <p class="seccion">Redes y foto</p>
+    <div class="campo"><label for="instagram">Instagram</label><input id="instagram" name="instagram" maxlength="200" placeholder="@usuario"></div>
+    <div class="campo"><label for="facebook">Facebook</label><input id="facebook" name="facebook" maxlength="200" placeholder="URL o usuario"></div>
+    <div class="campo"><label for="linkedin">LinkedIn</label><input id="linkedin" name="linkedin" maxlength="200" placeholder="URL del perfil"></div>
+    <div class="campo"><label for="web">Sitio web</label><input id="web" name="web" maxlength="200" placeholder="www.miempresa.com"></div>
+
+    <div class="campo full">
+      <label for="foto">Foto o logo</label>
+      <div class="foto-fila">
+        <img id="preview" alt="" hidden>
+        <input id="foto" name="foto" type="file" accept="image/jpeg,image/png,image/webp">
+      </div>
+      <span class="ayuda">JPG, PNG o WEBP. Se recorta en cuadrado automáticamente.</span>
+    </div>
+
+    <div class="oculto" aria-hidden="true">
+      <label for="website">No llenar</label><input id="website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <label class="check full">
+      <input type="checkbox" name="acepta" id="acepta" required>
+      <span>Autorizo que estos datos, incluido mi número de apartamento, se publiquen en el directorio del conjunto y se traten conforme a la Ley 1581 de 2012.</span>
+    </label>
+
+    <div class="msg error full" id="formError" role="alert" hidden></div>
+    <button class="btn btn-verde enviar" type="submit" id="btnEnviar">Enviar registro</button>
+  </form>
+
+  <div class="exito" id="exito" hidden>
+    <h3>Registro enviado</h3>
+    <p>Aparecerás en el directorio cuando la administración apruebe tu información.</p>
+    <button class="btn btn-verde" type="button" data-cerrar>Cerrar</button>
+  </div>
+</dialog>
+<script src="animacion/script.js" type="module"></script>
+</body>
+</html>
